@@ -72,6 +72,7 @@ wbd <- file.path(
   "MapServer"
 ) |> arc_open()
 
+# REST API is fickle, so this doesn't always work
 huc10_names <- wbd |> 
   get_layer(5) |> 
   arc_select(
@@ -125,6 +126,31 @@ cut_hydro <- function(x, river, side){
 }
 
 huc10 <- huc10 |> cut_hydro(colorado_river, 1)
+
+remove(nhd, border_watersheds, cut_hydro)
+
+# build project window ----------------------------------------------------
+
+project_area <- huc10 |> st_union()
+
+# union introduces holes, probably because the vertices are super dense
+project_area <- st_polygon(project_area[[1]][1])
+  
+project_area <- st_sf(
+  name = "NSF HNDS-R Project Area",
+  geometry = st_sfc(project_area),
+  crs = st_crs(huc10)
+)
+
+# transform and save results ----------------------------------------------
+
+project_area <- project_area |> st_transform(4326)
+
+write_sf(
+  project_area,
+  dsn = gpkg,
+  layer = "window"
+)
 
 huc10 <- huc10 |> st_transform(4326)
 
