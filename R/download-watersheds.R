@@ -126,6 +126,8 @@ cut_hydro <- function(x, river, side){
 
 huc10 <- huc10 |> cut_hydro(colorado_river, 1)
 
+huc10 <- huc10 |> st_transform(4326)
+
 write_sf(
   huc10, 
   dsn = gpkg,
