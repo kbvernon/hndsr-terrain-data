@@ -31,8 +31,8 @@ summarize_terrain <- function(x, features, id, processing_dir){
   rr <- terra::rast(x, vsi = TRUE)
   
   # convert sf to SpatVector and project to crs(x)
-  feature <- terra::vect(features)
-  feature <- terra::project(features, terra::crs(rr))
+  features <- terra::vect(features)
+  features <- terra::project(features, terra::crs(rr))
   
   # save to disk, so we don't have to keep it all in memory
   rr <- terra::crop(
