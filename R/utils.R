@@ -5,8 +5,8 @@
 #' ruggedness and the proportion of the feature with slope below 5 degrees.
 #'
 #' @param x character, the url to the remote virtual raster
-#' @param features simple feature geometry
-#' @param id vector of IDs, should be same length as features
+#' @param features simple features
+#' @param id_col character, name of column in features to use as ID in output
 #' @param processing_dir character, just where to save a temporary file
 #' 
 #' @details
@@ -26,7 +26,7 @@
 #'
 #' @return data.frame with four columns: id, elevation, ruggedness, and slope
 #' 
-summarize_terrain <- function(x, features, id, processing_dir){
+summarize_terrain <- function(x, features, id_col, processing_dir){
   
   rr <- terra::rast(x, vsi = TRUE)
   
@@ -56,6 +56,8 @@ summarize_terrain <- function(x, features, id, processing_dir){
   names(rasters) <- c("elevation", "ruggedness", "slope")
   
   # extract values
+  # uses weights to account for the approximate fraction of each cell that
+  # falls into each polygon
   results <- terra::extract(
     rasters, 
     features, 
@@ -65,7 +67,9 @@ summarize_terrain <- function(x, features, id, processing_dir){
     ID = FALSE
   )
   
-  cbind(id, results)
+  results <- cbind(features[[id_col]], results)
+  
+  tibble::as_tibble(results)
   
 }
 
