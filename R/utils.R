@@ -38,6 +38,8 @@ summarize_terrain <- function(x, features, id, processing_dir){
   rr <- terra::crop(
     rr, 
     features,
+    snap = "out",
+    mask = TRUE,
     filename = file.path(processing_dir, "temp-raster.tif"),
     datatype = "FLT4S",
     gdal = c("COMPRESS=DEFLATE", "ZLEVEL=9"),
