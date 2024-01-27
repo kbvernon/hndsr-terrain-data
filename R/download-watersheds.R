@@ -24,7 +24,7 @@ nhd_plus <- file.path(
 get_huc12 <- function(x, server = nhd_plus){
   
   server |> 
-    get_layer(name = "WBDHU12") |> 
+    get_layer(12) |> 
     arc_select(
       fields = c("huc12", "name"),
       where = paste0("huc12 LIKE '", x, "%'"),
@@ -65,7 +65,6 @@ huc10 <- huc12 |>
   group_by(huc10) |> 
   summarize()
 
-# want to add colloquial name for no good reason, so...
 wbd <- file.path(
   "https://hydro.nationalmap.gov/arcgis/rest/services",
   "wbd",
@@ -144,7 +143,11 @@ project_area <- st_sf(
 
 # transform and save results ----------------------------------------------
 
-project_area <- project_area |> st_transform(4326)
+# goemetries may have duplicate vertices, so we pass them though 
+# st_make_valid() before saving
+project_area <- project_area |> 
+  st_transform(4269) |> 
+  st_make_valid()
 
 write_sf(
   project_area,
@@ -152,7 +155,9 @@ write_sf(
   layer = "window"
 )
 
-huc10 <- huc10 |> st_transform(4326)
+huc10 <- huc10 |> 
+  st_transform(4269) |> 
+  st_make_valid()
 
 write_sf(
   huc10, 
