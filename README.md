@@ -22,7 +22,7 @@ Each statistic is derived from a digital elevation model.
 
 1.  **Elevation**
 
-    Global average: $\frac{1}{N} \sum_{i=1}^{N} C_{i}$
+    Global average: $`\frac{1}{N} \sum_{i=1}^{N} C_{i}`$
 
     **Motivation:** this is strongly correlated with temperature and
     precipitation.
@@ -37,7 +37,7 @@ Each statistic is derived from a digital elevation model.
     between focal cell $i$ and its adjacent cells $j$. This is similar to the
     standard deviation.
 
-    Global average: $\frac{1}{N} \sum_{i=1}^{N} TRI_{i}$
+    Global average: $`\frac{1}{N} \sum_{i=1}^{N} TRI_{i}`$
 
     **Motivation**: this gives a general sense of how rugged a terrain is, so it
     can proxy for the costs of irrigation and the costs of travel.
@@ -53,7 +53,7 @@ Each statistic is derived from a digital elevation model.
     than its neighbors. A negative value means $i$ is generally lower in
     elevation than its neighbors.
 
-    Global average: $\frac{1}{N} \sum_{i=1}^{N} TPI_{i}$
+    Global average: $`\frac{1}{N} \sum_{i=1}^{N} TPI_{i}`$
 
     **Motivation**: this is similar to TRI, but it also provides information
     about the frequency of potential "sinks" in the terrain, or places where
@@ -68,7 +68,7 @@ Each statistic is derived from a digital elevation model.
     with $d_{ij}$ being the distance between center points of cells $i$ and $j$.
     In English, we convert average rise-over-run into average degrees.
 
-    Global average: $\frac{1}{N} \sum_{i=1}^{N} I(S_{i} \leq K)$
+    Global average: $`\frac{1}{N} \sum_{i=1}^{N} I(S_{i} \leq K)`$
 
     Here, $I$ is an indicator function, which is equal to 1 if slope is less
     than or equal to K and 0 otherwise. Currently, we are estimating this using
