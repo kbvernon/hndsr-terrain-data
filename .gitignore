@@ -6,3 +6,4 @@ _misc/
 /data-raw/
 *.gpkg
 *.Rproj
+site-points.csv
