@@ -51,12 +51,6 @@ huc12 <- huc12 |>
     by = "huc10"
   )
 
-# currently stored as MULTIPOLYGON, but none of them
-# are actually MULTIPOLYGON, so cast to POLYGON
-huc12 <- huc12 |> 
-  st_cast("POLYGON") |> 
-  arrange(huc10, huc12)
-
 remove(selection, get_huc12)
 
 # aggregate to HUC10 ------------------------------------------------------
