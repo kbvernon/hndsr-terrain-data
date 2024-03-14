@@ -47,7 +47,6 @@ communities <- communities |> left_join(community_hucs, by = "id")
 # summarize terrain -------------------------------------------------------
 
 watershed_terrain <- watersheds |> 
-  filter(huc8 %in% 13010001:13010004) |> 
   nest(.by = huc8) |> 
   pull(data) |> 
   future_map(\(x){ summarize_terrain(x, id_col = "huc10") }) |> 
