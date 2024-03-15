@@ -28,7 +28,8 @@ sites <- here("data", "site-points.csv") |>
     coords = c("longitude", "latitude"), 
     crs = 4326
   ) |> 
-  st_transform(4269)
+  st_transform(4269) |> 
+  mutate(temp_id = 1:n())
 
 # summarize terrain -------------------------------------------------------
 
@@ -39,7 +40,7 @@ site_terrain <- sites |>
   st_buffer(2000) |> 
   nest(.by = county) |> 
   pull(data) |> 
-  future_map(data, \(x){ summarize_terrain(x, id_col = "temp_id") }) |> 
+  future_map(\(x){ summarize_terrain(x, id_col = "temp_id") }) |> 
   bind_rows()
 
 # extract data and save ---------------------------------------------------
